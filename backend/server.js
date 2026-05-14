@@ -9,7 +9,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // MongoDB connection
-mongoose.connect("mongodb://127.0.0.1:27017/test")
+const dbURI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/test";
+mongoose.connect(dbURI)
 .then(() => console.log("DB connected"))
 .catch(err => console.log(err));
 
@@ -94,3 +95,5 @@ app.post("/generate", async (req, res) => {
     });
   }
 });
+
+module.exports = app;
