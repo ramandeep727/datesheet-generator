@@ -1,0 +1,377 @@
+*{
+box-sizing:border-box;
+font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body{
+margin:0;
+background:#eef2f7;
+color:#333;
+}
+
+/* HEADER */
+
+.header{
+background:linear-gradient(135deg,#1e3a8a,#2563eb);
+color:white;
+padding:20px;
+}
+
+.header-content{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.logo{
+width:60px;
+}
+
+.header-text h1{
+margin:0;
+font-size:28px;
+}
+
+.header-text p{
+margin:3px 0 0;
+opacity:.9;
+}
+
+.header-buttons{
+margin-top:10px;
+text-align:center;
+}
+
+.header-buttons button{
+background:white;
+color:#1e3a8a;
+border:none;
+padding:8px 14px;
+border-radius:6px;
+margin:4px;
+font-weight:600;
+cursor:pointer;
+transition:.2s;
+}
+
+.header-buttons button:hover{
+background:#dbeafe;
+}
+
+/* MAIN CONTAINER */
+
+.container{
+max-width:1100px;
+margin:30px auto;
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+/* SECTION CARDS */
+
+.section{
+margin-top:25px;
+padding:18px;
+background:#f9fafb;
+border-radius:10px;
+border:1px solid #e5e7eb;
+}
+
+.section h3{
+margin-top:0;
+color:#1e40af;
+}
+
+/* GRID */
+
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+/* INPUTS */
+
+input,select{
+width:100%;
+padding:10px;
+border-radius:6px;
+border:1px solid #d1d5db;
+font-size:14px;
+transition:.2s;
+}
+
+input:focus,select:focus{
+outline:none;
+border-color:#2563eb;
+box-shadow:0 0 0 2px rgba(37,99,235,.2);
+}
+
+/* BUTTONS */
+
+button{
+background:#2563eb;
+color:white;
+border:none;
+padding:10px 16px;
+border-radius:6px;
+cursor:pointer;
+font-weight:600;
+transition:.2s;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+/* PREVIEW */
+
+#preview{
+background:white;
+border:1px solid #e5e7eb;
+padding:12px;
+border-radius:8px;
+margin-top:10px;
+
+max-height:300px;
+overflow-y:auto;
+}
+
+/* RESULT TABLE */
+
+#result{
+overflow-x:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+font-size:14px;
+}
+
+th{
+background:#2563eb;
+color:white;
+padding:12px;
+}
+
+td{
+padding:10px;
+border:1px solid #e5e7eb;
+text-align:center;
+}
+
+tr:nth-child(even){
+background:#f3f4f6;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width:900px){
+
+.container{
+margin:15px;
+padding:18px;
+}
+
+.form-grid{
+grid-template-columns:1fr;
+}
+
+.header-content{
+flex-direction:column;
+text-align:center;
+}
+
+.logo{
+width:50px;
+}
+
+table{
+font-size:12px;
+}
+
+}
+
+/* EXTRA SMALL PHONES */
+
+@media (max-width:500px){
+
+.header-text h1{
+font-size:22px;
+}
+
+.header-text p{
+font-size:14px;
+}
+
+button{
+width:100%;
+margin-top:6px;
+}
+
+}
+
+/* PRINT MODE */
+
+@media print{
+
+button,
+input,
+select,
+#preview,
+#holidayList{
+display:none;
+}
+
+body{
+background:white;
+}
+
+.container{
+box-shadow:none;
+margin:0;
+}
+
+}
+
+input[type="date"]{
+cursor:pointer;
+}
+
+.holiday-chip{
+display:inline-flex;
+align-items:center;
+background:#eef2ff;
+color:#1e3a8a;
+padding:6px 10px;
+border-radius:20px;
+margin:4px;
+font-size:13px;
+}
+
+.holiday-chip button{
+margin-left:6px;
+border:none;
+background:#ef4444;
+color:white;
+border-radius:50%;
+width:18px;
+height:18px;
+cursor:pointer;
+font-size:11px;
+line-height:16px;
+}
+/* SLOT SELECTION */
+
+.slot-container{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+margin-top:15px;
+}
+
+.slot-box{
+background:#f9fafb;
+border:1px solid #e5e7eb;
+border-radius:8px;
+padding:15px;
+}
+
+/* TITLE */
+
+.slot-box h4{
+margin:0 0 10px 0;
+color:#1e40af;
+}
+
+/* SEMESTER CHECKBOX ROW */
+
+.slot-box label{
+display:flex;
+align-items:center;
+gap:8px;
+margin-bottom:8px;
+cursor:pointer;
+}
+
+/* CHECKBOX SIZE */
+
+.slot-box input[type="checkbox"]{
+width:16px;
+height:16px;
+}
+
+/* WEEKEND RULES */
+
+#skipSunday,
+#skipSaturday{
+margin-right:6px;
+}
+
+/* GRID SPACING FIX */
+
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.weekend-item{
+display:flex;
+align-items:center;
+gap:8px;
+margin-top:5px;
+cursor:pointer;
+}
+
+.weekend-rule{
+display:flex;
+align-items:center;
+gap:8px;
+margin-top:6px;
+cursor:pointer;
+}
+
+.weekend-rule input{
+width:16px;
+height:16px;
+}
+.slot-box{
+min-height:230px;
+}
+
+html{
+scroll-behavior: smooth;
+}
+
+#result{
+max-height:600px;
+overflow-y:auto;
+scroll-behavior:smooth;
+}
+
+*{
+-webkit-font-smoothing: antialiased;
+transform: translateZ(0);
+}
+
+body{
+scroll-behavior:smooth;
+overflow-y:scroll;
+scrollbar-width:thin;
+}
+
+::-webkit-scrollbar{
+width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#2563eb;
+border-radius:10px;
+}

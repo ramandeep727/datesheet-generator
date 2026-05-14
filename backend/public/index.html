@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CGC Examination DateSheet</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+</head>
+
+
+<body>
+
+<script>
+
+/* LOGIN CHECK */
+
+if(sessionStorage.getItem("loggedIn") !== "yes"){
+    window.location = "login.html";
+}
+
+/* SYSTEM STATUS CHECK */
+
+if(localStorage.getItem("system") === "OFF"){
+    document.body.innerHTML =
+    "<h2 style='text-align:center;margin-top:150px'>System Disabled by Administrator</h2>";
+}
+
+</script>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="header-content">
+
+<img src="logo.png" class="logo">
+
+<div class="header-text">
+<h1>CGC University</h1>
+<p>Examination DateSheet Generator</p>
+</div>
+
+</div>
+
+<div class="header-buttons">
+<button onclick="logout()">Logout</button>
+<button onclick="disableSystem()">Disable System</button>
+</div>
+
+</div>
+
+
+
+<!-- MAIN CONTAINER -->
+
+<div class="container">
+
+
+<!-- COLLEGE -->
+
+<div class="section">
+
+<h3>Course Details</h3>
+
+<div class="form-grid">
+
+<select id="college" onchange="updateCourses()">
+<option>Chandigarh Engineering College (CEC)</option>
+<option>Chandigarh College of Engineering (CCE)</option>
+<option>Chandigarh School of Business (CSB)</option>
+<option>Chandigarh Pharmacy College (CPC)</option>
+<option>CGC University</option>
+</select>
+
+<select id="course" onchange="updateStreams(); autoFillSubjects()">
+<option value="BTech">BTech</option>
+<option value="MTech">MTech</option>
+<option value="BCA">BCA</option>
+<option value="MCA">MCA</option>
+<option value="BBA">BBA</option>
+<option value="MBA">MBA</option>
+<option value="B.COM">B.COM</option>
+<option value="M.COM">M.COM</option>
+<option value="PHD">PHD</option>
+</select>
+
+<select id="stream"></select>
+
+<select id="semester" onchange="autoFillSubjects()">
+<option>Sem 1</option>
+<option>Sem 2</option>
+<option>Sem 3</option>
+<option>Sem 4</option>
+<option>Sem 5</option>
+<option>Sem 6</option>
+<option>Sem 7</option>
+<option>Sem 8</option>
+</select>
+
+</div>
+
+</div>
+
+<br><br>
+
+
+<!-- SUBJECTS -->
+<h3>Upload Subjects via Excel</h3>
+
+<input type="file" id="excelFile" accept=".xlsx,.xls">
+<button onclick="uploadExcel()">Upload Excel</button>
+
+<br><br>
+<input id="subjects" placeholder="Example: CS301|Data Structures, CS302|Operating Systems">
+
+<br><br>
+
+
+<button onclick="addCourse()">Add Course</button>
+
+
+<hr>
+
+
+<!-- PREVIEW -->
+
+<div id="preview"></div>
+
+
+
+
+<div class="section">
+
+<h3>Holidays</h3>
+
+<input type="date" id="holidayDate" onclick="this.showPicker()" onfocus="this.showPicker()" onkeydown="if(event.key==='Enter') addHoliday()">
+
+
+
+<button onclick="addHoliday()">Add Holiday</button>
+
+<div id="holidayList"></div>
+
+</div>
+
+
+<div class="section">
+
+<h3>Exam Settings</h3>
+
+<div class="form-grid">
+
+<div>
+<label>Exam Type</label>
+<select id="examType">
+<option value="MST">MST</option>
+<option value="End Semester">End Semester</option>
+</select>
+</div>
+
+<div>
+<label>Start Date</label>
+<input type="date" id="startDate" onclick="this.showPicker()" onfocus="this.showPicker()">
+
+
+</div>
+
+<div>
+<label>Gap Days</label>
+<input type="number" id="gap" value="1">
+</div>
+
+<div>
+<label>Morning Slot Time</label>
+<input type="text" id="morningTimeInput" placeholder="e.g. 9:00 AM - 12:00 PM">
+</div>
+
+<div>
+<label>Evening Slot Time</label>
+<input type="text" id="eveningTimeInput" placeholder="e.g. 2:00 PM - 5:00 PM">
+</div>
+
+<div>
+<label>Block</label>
+<input type="number" id="blockInput" placeholder="Enter Block (1,2,3)">
+</div>
+
+</div>
+
+<div class="slot-container">
+
+
+<div class="slot-box">
+
+<h3>Morning Session</h3>
+
+<label><input type="checkbox" class="morningSem" value="1" onchange="syncSessions()"> Sem 1</label>
+<label><input type="checkbox" class="morningSem" value="2" onchange="syncSessions()"> Sem 2</label>
+<label><input type="checkbox" class="morningSem" value="3" onchange="syncSessions()"> Sem 3</label>
+<label><input type="checkbox" class="morningSem" value="4" onchange="syncSessions()"> Sem 4</label>
+<label><input type="checkbox" class="morningSem" value="5" onchange="syncSessions()"> Sem 5</label>
+<label><input type="checkbox" class="morningSem" value="6" onchange="syncSessions()"> Sem 6</label>
+<label><input type="checkbox" class="morningSem" value="7" onchange="syncSessions()"> Sem 7</label>
+<label><input type="checkbox" class="morningSem" value="8" onchange="syncSessions()"> Sem 8</label>
+
+</div>
+
+
+<div class="slot-box">
+
+<h3>Evening Session</h3>
+
+<label><input type="checkbox" class="eveningSem" value="1" onchange="syncSessions()"> Sem 1</label>
+<label><input type="checkbox" class="eveningSem" value="2" onchange="syncSessions()"> Sem 2</label>
+<label><input type="checkbox" class="eveningSem" value="3" onchange="syncSessions()"> Sem 3</label>
+<label><input type="checkbox" class="eveningSem" value="4" onchange="syncSessions()"> Sem 4</label>
+<label><input type="checkbox" class="eveningSem" value="5" onchange="syncSessions()"> Sem 5</label>
+<label><input type="checkbox" class="eveningSem" value="6" onchange="syncSessions()"> Sem 6</label>
+<label><input type="checkbox" class="eveningSem" value="7" onchange="syncSessions()"> Sem 7</label>
+<label><input type="checkbox" class="eveningSem" value="8" onchange="syncSessions()"> Sem 8</label>
+
+</div>
+
+</div>
+<div>
+
+<label>Weekend Rules</label>
+
+<label class="weekend-rule">
+<input type="checkbox" id="skipSunday" checked>
+<span>Skip Sunday</span>
+</label>
+
+<label class="weekend-rule">
+<input type="checkbox" id="skipSaturday">
+<span>Skip Saturday</span>
+</label>
+
+</div>
+
+
+</div>
+
+<div class="section">
+
+<h3>Exam Load Control (Optional)</h3>
+
+<label class="weekend-rule">
+<input type="checkbox" id="enableLoadControl">
+<span>Enable Load Control</span>
+
+</label>
+
+<div class="form-grid">
+
+<div>
+<label>Max Morning Exams Per Day</label>
+<input type="number" id="maxMorningLoad" placeholder="Example: 10">
+</div>
+
+<div>
+<label>Max Evening Exams Per Day</label>
+<input type="number" id="maxEveningLoad" placeholder="Example: 10">
+</div>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h3>Generate DateSheet</h3>
+
+<button onclick="generate()">Generate DateSheet</button>
+
+<button onclick="showExamLoad()">Show Exam Load</button>
+
+<button onclick="exportPDF()">Export PDF</button>
+
+<button onclick="exportExcel()">Export Excel</button>
+
+<button onclick="loadFromDB()">Load Saved Data</button>
+
+</div>
+
+<div class="section">
+
+<div id="examLoadPanel" style="display:none; margin-top:20px;"></div>
+
+<h3>Generated DateSheet</h3>
+
+<div id="result"></div>
+
+</div>
+
+
+<script src="script.js?v=1"></script>
+
+</body>
+
+</html>

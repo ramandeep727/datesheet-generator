@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CGC Examination Login</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#007bff">
+
+<style>
+
+body{
+background:#f2f4f8;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+font-family:Arial, sans-serif;
+margin:0;
+}
+
+/* LOGIN CONTAINER */
+
+.login-container{
+text-align:center;
+}
+
+/* LOGO */
+
+.login-logo{
+width:90px;
+margin-bottom:10px;
+}
+
+/* TITLE */
+
+h1{
+margin:5px 0;
+font-size:28px;
+}
+
+p{
+margin-bottom:25px;
+color:#666;
+}
+
+/* LOGIN CARD */
+
+.card{
+background:white;
+padding:30px;
+width:100%;
+max-width:320px;
+border-radius:10px;
+box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+/* INPUT */
+
+input{
+width:100%;
+padding:12px;
+margin-bottom:15px;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:14px;
+}
+
+/* BUTTON */
+
+button{
+width:100%;
+padding:12px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+<img src="logo.png" class="login-logo">
+
+<h1>CGC University</h1>
+<p>Examination Portal</p>
+
+<form class="card" onsubmit="login(); return false;">
+
+<input id="user" placeholder="Username">
+<input id="pass" type="password" placeholder="Password">
+
+<button type="submit">Login</button>
+
+</form>
+
+
+</div>
+
+<script>
+
+function login(){
+
+if(user.value==="admin" && pass.value==="cgc123"){
+
+sessionStorage.setItem("loggedIn","yes");
+sessionStorage.setItem("system","ON");
+
+window.location="index.html";
+
+}
+else{
+alert("Invalid credentials");
+}
+
+}
+
+if ("serviceWorker" in navigator) {
+navigator.serviceWorker.register("service-worker.js");
+}
+
+</script>
+
+</body>
+</html>
